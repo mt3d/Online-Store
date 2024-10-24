@@ -1,0 +1,27 @@
+{
+  "name": "sportstore",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "watch": "tsc-watch --noClear --onSuccess \"node dist/server.js\"",
+    "start": "nodemon --exec npm run watch"
+  },
+  "nodemonConfig": {
+    "ext": "js,handlebars,json",
+    "ignore": [
+      "dist/**",
+      "node_modules/**"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.4",
+    "@types/node": "^20.6.1",
+    "nodemon": "^3.0.3",
+    "tsc-watch": "^6.0.4",
+    "typescript": "^5.2.2"
+  }
+}
