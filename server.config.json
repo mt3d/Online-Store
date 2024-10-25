@@ -1,5 +1,13 @@
 {
     "http": {
         "port": 5000
+    },
+    "templates": {
+        "location": "templates",
+        "config": {
+            "layoutsDir": "templates",
+            "defaultLayout": "main_layout.handlebars",
+            "partialsDir": "templates"
+        }
     }
 }
