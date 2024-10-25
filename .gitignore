@@ -6,6 +6,8 @@ npm-debug.log*
 # Dependency directories
 node_modules/
 
+# TypeScript compiler output directory
+dist/
 
 # TypeScript cache
 *.tsbuildinfo
