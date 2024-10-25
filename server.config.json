@@ -9,5 +9,9 @@
             "defaultLayout": "main_layout.handlebars",
             "partialsDir": "templates"
         }
+    },
+    "errors": {
+        "400": "not_found",
+        "500": "error"
     }
 }
