@@ -19,3 +19,17 @@ export interface Supplier {
     name: string;
     products?: Product[];
 }
+
+/**
+ * Allows the pagination requirements associated with a query to be provided to the repository.
+ * Could be expanded as other data navigation features are added.
+ */
+export interface ProductQueryParameters {
+    pageSize?: number;
+    page?: number;
+}
+
+export interface ProductQueryResult {
+    products: Product[];
+    totalCount: number;
+}

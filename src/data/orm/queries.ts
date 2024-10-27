@@ -1,3 +1,4 @@
+import { ProductQueryParameters } from "../catalog_models";
 import { BaseRepo, Constructor } from "./core";
 import { CategoryModel, ProductModel, SupplierModel } from "./models";
 
@@ -18,7 +19,16 @@ import { CategoryModel, ProductModel, SupplierModel } from "./models";
  */
 export function AddQueries<TBase extends Constructor<BaseRepo>>(Base: TBase) {
     return class extends Base {
-        getProducts() {
+        async getProducts(params?: ProductQueryParameters) {
+            const opts: any = {};
+            
+            if (params?.page && params.pageSize) {
+                opts.limit = params?.pageSize;
+
+                // offset: Skip the first n items of the results.
+                opts.offset = (params.page - 1) * params.pageSize
+            }
+
             /**
              * The objects created by Sequelize cannot be used directly with Handlebars,
              * since their values are presented in a way that allows for changes to be tracked.
@@ -28,14 +38,17 @@ export function AddQueries<TBase extends Constructor<BaseRepo>>(Base: TBase) {
              * The `nest` option ensures that nested values, such as those produced for
              * associated data, are presented as nested data objects.
              */
-            return ProductModel.findAll({
+            const result = await ProductModel.findAndCountAll({
                 include: [
                     { model: SupplierModel, as: "supplier" },
                     { model: CategoryModel, as: "category" },
                 ],
                 raw: true,
-                nest: true
+                nest: true,
+                ...opts
             });
+
+            return { products: result.rows, totalCount: result.count }
         }
 
         getCategories() {
