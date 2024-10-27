@@ -37,6 +37,11 @@ export function AddQueries<TBase extends Constructor<BaseRepo>>(Base: TBase) {
              * 
              * The `nest` option ensures that nested values, such as those produced for
              * associated data, are presented as nested data objects.
+             * 
+             * The findAndCountAll method is a convenience method that combines findAll and count.
+             * This is useful when dealing with queries related to pagination where you want
+             * to retrieve data with a limit and offset but also need to know the total number
+             * of records that match the query.
              */
             const result = await ProductModel.findAndCountAll({
                 include: [

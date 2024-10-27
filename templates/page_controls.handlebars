@@ -1,0 +1,13 @@
+<dic class="col">
+    <!-- pageButtons is a block helper. Block expressions allow you to define helpers
+    that will invoke a section of your template with a different context than the current.
+    These block helpers are identified by a # preceeding the helper name and require
+    a matching closing mustache, /, of the same name. -->
+    {{#pageButtons }}
+        {{#if selected }}
+            <button class="btn btn-sm btn-light active mr-1 p-2">{{index}}</button>
+        {{else}}
+            <a class="btn btn-sm btn-light mr-1 p-2" href="{{navigationUrl page=index}}">{{index}}</a>
+        {{/if}}
+    {{/pageButtons }}
+</dic>
