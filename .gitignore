@@ -3,6 +3,9 @@ logs
 *.log
 npm-debug.log*
 
+# SQLite databases
+*.db
+
 # Dependency directories
 node_modules/
 
