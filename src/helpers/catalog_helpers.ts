@@ -1,5 +1,6 @@
 import { HelperOptions } from "handlebars";
 import { stringify } from "node:querystring";
+import { Category } from "../data/catalog_models";
 
 const getData = (options: HelperOptions) => {
     /**
@@ -15,8 +16,8 @@ const getData = (options: HelperOptions) => {
 }
 
 export const navigationUrl = (options: HelperOptions) => {
-    const { page, pageSize } = getData(options);
-    return "/?" + stringify({ page, pageSize });
+    const { page, pageSize, category, searchTerm } = getData(options);
+    return "/?" + stringify({ page, pageSize, category, searchTerm });
 }
 
 export const escapeUrl = (url: string) => escape(url);
@@ -38,7 +39,7 @@ export const pageButtons = (options: HelperOptions) => {
 
     // Create content for each data page.
     for (let i = 1; i <= pageCount; i++) {
-        /**
+         /**
          * Each call for `fn` will add everything between the helpers tags
          * using the context provided to it.
          * 
@@ -68,6 +69,23 @@ export const pageSizeOptions = (options: HelperOptions) => {
             selected: pageSize === size ? "selected" : ""
         });
     });
+
+    return output;
+}
+
+export const categoryButtons = (options: HelperOptions) => {
+    const { category, categories } = getData(options);
+
+    let output = "";
+
+    (categories as Category[]).forEach(cat => {
+            output += options.fn({
+                id: cat.id,
+                name: cat.name,
+                selected: cat.id === category
+            });
+        }
+    );
 
     return output;
 }
