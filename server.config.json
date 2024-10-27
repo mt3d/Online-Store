@@ -13,5 +13,16 @@
     "errors": {
         "400": "not_found",
         "500": "error"
+    },
+    "catalog": {
+        "orm_repo": {
+            "settings": {
+                "dialect": "sqlite",
+                "storage": "catalog.db"
+            },
+            "logging": true,
+            "reset_db": true,
+            "seed_file": "products.json"
+        }
     }
 }
