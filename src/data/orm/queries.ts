@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import { ProductQueryParameters } from "../catalog_models";
 import { BaseRepo, Constructor } from "./core";
 import { CategoryModel, ProductModel, SupplierModel } from "./models";
@@ -29,6 +30,23 @@ export function AddQueries<TBase extends Constructor<BaseRepo>>(Base: TBase) {
                 opts.offset = (params.page - 1) * params.pageSize
             }
 
+            if (params?.searchTerm) {
+                // The percentage sign is used to represent 0, 1 or any unknown sequence of characters.
+                const searchOp = {
+                    [Op.like]: "%" + params.searchTerm + "%"
+                };
+
+                opts.where = {
+                    [Op.or]: { name: searchOp, description: searchOp }
+                };
+            }
+
+            if (params?.category) {
+                opts.where = {
+                    ...opts.where, categoryId: params.category
+                }
+            }
+
             /**
              * The objects created by Sequelize cannot be used directly with Handlebars,
              * since their values are presented in a way that allows for changes to be tracked.
@@ -53,7 +71,10 @@ export function AddQueries<TBase extends Constructor<BaseRepo>>(Base: TBase) {
                 ...opts
             });
 
-            return { products: result.rows, totalCount: result.count }
+            // Will be used when designing category-based filtering controls.
+            const categories = await this.getCategories();
+
+            return { products: result.rows, totalCount: result.count, categories }
         }
 
         getCategories() {

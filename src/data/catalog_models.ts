@@ -27,9 +27,12 @@ export interface Supplier {
 export interface ProductQueryParameters {
     pageSize?: number;
     page?: number;
+    category?: number;
+    searchTerm?: string;
 }
 
 export interface ProductQueryResult {
     products: Product[];
     totalCount: number;
+    categories: Category[];
 }
