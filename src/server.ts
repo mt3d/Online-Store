@@ -5,6 +5,7 @@ import { getConfig } from "./config";
 import { createRoutes } from "./routes";
 import { createTemplates } from "./helpers";
 import { createErrorHandlers } from "./errors";
+import { createSessions } from "./sessions";
 
 const port = getConfig("http:port", 5000);
 
@@ -15,6 +16,7 @@ expressApp.use(express.urlencoded({ extended: true }));
 expressApp.use(express.static("node_modules/bootstrap/dist"));
 
 createTemplates(expressApp);
+createSessions(expressApp);
 createRoutes(expressApp);
 createErrorHandlers(expressApp);
 
