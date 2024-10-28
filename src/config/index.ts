@@ -1,10 +1,16 @@
 import { readFileSync } from "node:fs";
 import { Env, getEnvironment } from "./environment";
 import { merge } from "./merge";
+import { config as dotenvconfig } from "dotenv";
 
 // The main configuration file.
 const file = process.env.SERVER_CONFIG ?? "server.config.json";
 const data = JSON.parse(readFileSync(file).toString());
+
+dotenvconfig({
+    // read development.env during development, and production.env during production.
+    path: getEnvironment().toString() + ".env"
+});
 
 try {
     // An environment specific configuration file (i.e. production.server.config.json).
@@ -39,6 +45,16 @@ export const getConfig = (path: string, defaultValue: any = undefined) => {
     let val = data;
     paths.forEach(p => val = val[p]);
     return val ?? defaultValue;
+}
+
+export const getSecret = (name: string) => {
+    const secret = process.env[name];
+
+    if (secret === undefined) {
+        throw new Error(`Undefined secret: ${name}`)
+    }
+
+    return secret;
 }
 
 export { getEnvironment, Env };
