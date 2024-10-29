@@ -2,6 +2,7 @@ import { Category, Product, ProductQueryParameters, ProductQueryResult, Supplier
 
 export interface CatalogRepository {
     getProducts(params?: ProductQueryParameters): Promise<ProductQueryResult>;
+    getProductDetails(ids: number[]): Promise<Product[]>;
     storeProduct(p: Product): Promise<Product>;
 
     getCategories(): Promise<Category[]>;
