@@ -1,7 +1,7 @@
 import { DataTypes, Sequelize } from "sequelize";
 import { CustomerModel } from "./customer_models";
 
-export const initCustomerModels = (sequelize: Sequelize) => {
+export const initializeCustomerModels = (sequelize: Sequelize) => {
     CustomerModel.init({
         id: {
             type: DataTypes.INTEGER,
