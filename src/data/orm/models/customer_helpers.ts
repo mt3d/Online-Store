@@ -9,6 +9,7 @@ export const initializeCustomerModels = (sequelize: Sequelize) => {
             primaryKey: true
         },
         name: { type: DataTypes.STRING },
-        email: { type: DataTypes.STRING }
+        email: { type: DataTypes.STRING },
+        federatedId: { type: DataTypes.STRING }
     }, { sequelize });
 }

@@ -5,7 +5,8 @@ import { Validator } from "./validator";
 
 export const CustomerValidator = new Validator<Customer>({
     name: [required, minLength(6)],
-    email: email
+    email: email,
+    federatedId: no_op
 });
 
 export const AddressValidator = new Validator<Address>({
