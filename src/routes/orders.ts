@@ -9,18 +9,22 @@ declare module "express-session" {
         orderData?: {
             customer?: ValidationResults<Customer>,
             address?: ValidationResults<Address>
-        }
+        };
+        pageSize?: string;
     }
 }
 export const createOrderRoutes = (app: Express) => {
     app.get("/checkout", (req, res) => {
+        req.session.pageSize = req.session.pageSize ?? req.query.pageSize?.toString() ?? "3";
         /**
          * This template renders the HTML form, which will be empty the first time the
          * user sends a GET request because no customer or address data has been
          * stored in the session.
          */
         res.render("order_details", {
-            order: req.session.orderData
+            order: req.session.orderData,
+            page: 1,
+            pageSize: req.session.pageSize
         });
     });
 
@@ -43,6 +47,6 @@ export const createOrderRoutes = (app: Express) => {
     });
 
     app.get("/checkout/:id", (req, res) => {
-        res.render("order_complete", { id: req.params.id });
+        res.render("order_complete", { id: req.params.id, pageSize: req.session.pageSize ?? 3 });
     });
 }

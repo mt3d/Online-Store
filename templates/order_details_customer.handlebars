@@ -1,0 +1,31 @@
+<div class="m-2">
+    <h3>Your details:</h3>
+    <div class="form-group">
+        <label>Name:</label>
+        <!--
+        The built-in `with` helper is used to change the context, which can simplify
+        nested expressions.
+
+        The with helper won’t render content if its expression is undefined,
+        which presents a problem the first time that the template is rendered
+        because the user’s session doesn’t contain this value until after
+        the first time the form is evaluated.
+        -->
+        {{#with (get order.customer.name) }}
+            <!-- `value` is now evaluated as `order.customer.name.value` -->
+            <input name="customer[name]" class="form-control" value="{{ value }}">
+            {{#if invalid }}
+                {{> validation_messages messages}}
+            {{/if}}
+        {{/with}}
+    </div>
+    <div class="form-group">
+        <label>Email:</label>
+        {{#with (get order.customer.email)}}
+            <input name="customer[email]" class="form-control" value="{{ value }}">
+            {{#if invalid }}
+                {{> validation_messages messages}}
+            {{/if}}
+        {{/with}}
+    </div>
+</div>
