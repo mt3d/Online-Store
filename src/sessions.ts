@@ -23,8 +23,13 @@ export const createSessions = (app: Express) => {
     app.use(session({
         secret,
         store,
-        resave: true,
-        saveUninitialized: false,
-        cookie: { maxAge: config.maxAgeHrs * 60 * 60 * 1000 , sameSite: "strict" }
+        resave: false, // required by OAuth
+        saveUninitialized: true, // required by OAuth
+        cookie: {
+            maxAge: config.maxAgeHrs * 60 * 60 * 1000 ,
+            sameSite: false, // required by OAuth
+            httpOnly: false,
+            secure: false
+        }
     }));
 }

@@ -6,6 +6,7 @@ import { createRoutes } from "./routes";
 import { createTemplates } from "./helpers";
 import { createErrorHandlers } from "./errors";
 import { createSessions } from "./sessions";
+import { createAuthentication } from "./authentication";
 
 const port = getConfig("http:port", 5000);
 
@@ -18,6 +19,7 @@ expressApp.use(express.static("node_modules/bootstrap-icons"));
 
 createTemplates(expressApp);
 createSessions(expressApp);
+createAuthentication(expressApp);
 createRoutes(expressApp);
 createErrorHandlers(expressApp);
 
