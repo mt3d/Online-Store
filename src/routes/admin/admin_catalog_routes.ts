@@ -14,4 +14,15 @@ export const createAdminCatalogRoutes = (router: Router) => {
 
         res.render("admin/product_table", { products });
     });
+
+    router.delete("/:id", async (req, res) => {
+        const id = req.params.id;
+        const count = await ProductModel.destroy({ where: { id }});
+
+        if (count === 1) {
+            res.end();
+        } else {
+            throw Error(`Unexpected deletion count result: ${count}`);
+        }
+    })
 }
