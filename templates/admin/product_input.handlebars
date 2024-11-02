@@ -1,0 +1,9 @@
+<div class="mb-2">
+    <label>{{label}}</label>
+    <!--
+    The helper is used to add the `disabled` attribute to the element when
+    the element is used for the `id` property.
+    -->
+    <input {{ disabled label }} name="{{ name }}" class="form-control" value="{{ data.value }}"/>
+    {{> admin/validation_messages data }}
+</div>
