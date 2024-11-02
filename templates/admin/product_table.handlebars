@@ -1,0 +1,13 @@
+{{> admin/area_buttons mode="products"}}
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th>ID</th><th>Name</th><th>Category</th><th>Supplier</th><th class="text-end">Price</th><th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each products }}
+            <tr><td colspan="6">{{ name }}</td></tr>
+        {{/each}}
+    </tbody>
+</table>
