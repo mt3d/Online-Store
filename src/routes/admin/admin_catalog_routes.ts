@@ -56,5 +56,33 @@ export const createAdminCatalogRoutes = (router: Router) => {
                 categories: await CategoryModel.findAll({ raw: true })
             });
         }
-    })
+    });
+
+    // Start the creation process.
+    router.get("/create", async (req, res) => {
+        const data = {
+            product: {},
+            suppliers: await SupplierModel.findAll({ raw: true }),
+            categories: await CategoryModel.findAll({ raw: true }),
+            create: true
+        };
+
+        res.render("admin/product_editor", data);
+    });
+
+    router.post("/create", async (req, res) => {
+        const validation = await ProductDTOValidator.validate(req.body);
+
+        if (isValid(validation)) {
+            await ProductModel.create(getData(validation));
+            res.redirect(303, "/api/products/table");
+        } else {
+            res.render("admin/product_editor", {
+                product: validation,
+                suppliers: await SupplierModel.findAll({ raw: true }),
+                categories: await CategoryModel.findAll({ raw: true }),
+                create: true
+            });
+        }
+    });
 }

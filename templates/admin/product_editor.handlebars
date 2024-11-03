@@ -1,5 +1,9 @@
 {{> admin/area_buttons mode="products" }}
+{{#if create}}
+<form hx-post="/api/products/create">
+{{else}}
 <form hx-put="/api/products/{{product.id.value}}">
+{{/if}}
     {{> admin/product_input label="ID" name="id" data=product.id }}
     {{> admin/product_input label="Name" name="name" data=product.name }}
     <div class="mb-2">
