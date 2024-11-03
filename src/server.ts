@@ -12,7 +12,7 @@ import httpProxy from "http-proxy";
 const port = getConfig("http:port", 5000);
 
 const expressApp: Express = express();
-expressApp.use(helmet());
+expressApp.use(helmet(getConfig("http:content_security", {})));
 expressApp.use(express.json());
 expressApp.use(express.urlencoded({ extended: true }));
 expressApp.use(express.static("node_modules/bootstrap/dist"));

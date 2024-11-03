@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { CategoryModel, ProductModel, SupplierModel } from "../../data/orm/models";
+import { getData, isValid, ProductDTOValidator } from "../../data/validation";
 
 export const createAdminCatalogRoutes = (router: Router) => {
     router.get("/table", async (req, res) => {
@@ -23,6 +24,37 @@ export const createAdminCatalogRoutes = (router: Router) => {
             res.end();
         } else {
             throw Error(`Unexpected deletion count result: ${count}`);
+        }
+    });
+
+    // Respond with a populated HTML form.
+    router.get("/edit/:id", async (req, res) => {
+        const id = req.params.id;
+        const data = {
+            product: {
+                id: { value: id },
+                ...await ProductDTOValidator.validate(await ProductModel.findByPk(id, { raw: true }))
+            },
+            suppliers: await SupplierModel.findAll({ raw: true }),
+            categories: await CategoryModel.findAll({ raw: true })
+        };
+
+        res.render("admin/product_editor", data);
+    });
+
+    // Validate the edited data and store it.
+    router.put("/:id", async (req, res) => {
+        const validation = await ProductDTOValidator.validate(req.body);
+
+        if (isValid(validation)) {
+            await ProductModel.update(getData(validation), { where: { id: req.params.id }});
+            res.redirect(303, "/api/products/table");
+        } else {
+            res.render("admin/product_editor", {
+                product: { id: { value: req.params.id }, ...validation },
+                suppliers: await SupplierModel.findAll({ raw: true }),
+                categories: await CategoryModel.findAll({ raw: true })
+            });
         }
     })
 }
