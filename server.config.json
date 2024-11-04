@@ -28,7 +28,7 @@
                 "storage": "catalog.db"
             },
             "logging": true,
-            "reset_db": true,
+            "reset_db": false,
             "seed_file": "products.json"
         }
     },
