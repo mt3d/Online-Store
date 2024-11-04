@@ -16,5 +16,20 @@ export const createAdminRoutes = (app: Express) => {
     createAdminOrderRoutes(order_router);
     app.use("/api/orders", order_router);
 
-    app.get("/admin", (req, res) => res.render("admin/admin_layout"));
+    app.get("/admin", (req, res) => res.redirect("admin/products"));
+
+    app.get("/admin/products", (req, res) => {
+        res.locals.content = "/api/products/table";
+        res.render("admin/admin_layout");
+    });
+
+    app.get("/admin/products/edit/:id", (req, res) => {
+        res.locals.content = `/api/products/edit${req.params.id}`;
+        res.render("admin/admin_layout");
+    });
+
+    app.get("/admin/orders", (req, res) => {
+        res.locals.content = "/api/orders/table";
+        res.render("admin/admin_layout");
+    });
 }
