@@ -3,6 +3,7 @@ import { createAdminCatalogRoutes } from "./admin_catalog_routes";
 import { createAdminOrderRoutes } from "./admin_order_routes";
 import passport from "passport";
 import { getConfig } from "../../config";
+import { createDbManagementRoutes } from "./database_routes";
 
 const users: string[] = getConfig("admin:users", []);
 
@@ -22,9 +23,6 @@ export const createAdminRoutes = (app: Express) => {
     }));
 
     const authCheck = (r: Request) => {
-        console.log(users);
-        console.log(r.user);
-        console.log(r.user?.email);
         return users.find(u => r.user?.email === u)
     }
 
@@ -42,6 +40,10 @@ export const createAdminRoutes = (app: Express) => {
     const order_router = Router();
     createAdminOrderRoutes(order_router);
     app.use("/api/orders", apiAuth, order_router);
+
+    const db_router = Router();
+    createDbManagementRoutes(db_router);
+    app.use("/api/database", apiAuth, db_router);
 
     const userAuth = (req: Request, res: Response, next: NextFunction) => {
         if (!authCheck(req)) {
@@ -68,5 +70,8 @@ export const createAdminRoutes = (app: Express) => {
         res.render("admin/admin_layout");
     });
 
-
+    app.get("/admin/database", userAuth, (req, res) => {
+        res.locals.content = "/api/database";
+        res.render("admin/admin_layout");
+    });
 }
