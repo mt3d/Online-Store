@@ -12,7 +12,12 @@
         <div class="container-fluid">
             <div class="row bg-info text-white py-2 px-1">
                 <div class="col align-baseline pt-1">SPORTS STORE ADMIN</div>
-                <div class="col-auto text-end"></div>
+                <div class="col-auto text-end">
+                    {{#if user }}
+                        ({{user.name}})
+                        <button class="btn btn-secondary" hx-post="/admin/signout" hx-target="body" hx-push-url="admin/signin"><i class="bi bi-box-arrow-right"></i></button>
+                    {{/if}}
+                </div>
             </div>
             <div class="row p-2">
                 <div class="col-2" id="area_buttons"></div>

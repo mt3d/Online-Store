@@ -28,7 +28,7 @@
                 "storage": "catalog.db"
             },
             "logging": true,
-            "reset_db": false,
+            "reset_db": true,
             "seed_file": "products.json"
         }
     },
@@ -47,5 +47,11 @@
         "openauth": {
             "redirectionUrl": "http://localhost:5000/signin-google"
         }
+    },
+    "admin": {
+        "openauth": {
+            "redirectionUrl": "http://localhost:5000/auth-signin-google"
+        },
+        "users": ["mhd.altahan.social@gmail.com"]
     }
 }
