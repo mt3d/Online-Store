@@ -3,6 +3,10 @@ import { Env, getEnvironment } from "./environment";
 import { merge } from "./merge";
 import { config as dotenvconfig } from "dotenv";
 
+dotenvconfig({
+    path: "overrides.env", override: false
+});
+
 // The main configuration file.
 const file = process.env.SERVER_CONFIG ?? "server.config.json";
 const data = JSON.parse(readFileSync(file).toString());
